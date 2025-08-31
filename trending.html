@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YouTube Trending News - NewsHub</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f2f5;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #ff0000;
+      color: white;
+      padding: 15px;
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 20px auto;
+      padding: 0 15px;
+    }
+    h2 {
+      text-align: center;
+      color: #ff0000;
+      margin-bottom: 20px;
+    }
+    .categories {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+      gap: 10px;
+    }
+    .categories button {
+      padding: 8px 15px;
+      border: none;
+      border-radius: 20px;
+      background: #ff0000;
+      color: white;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .categories button.active, .categories button:hover {
+      background: #cc0000;
+      transform: scale(1.05);
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      display: flex;
+      align-items: center;
+      background: white;
+      margin-bottom: 15px;
+      padding: 10px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+    }
+    li:hover { transform: scale(1.02); }
+    img {
+      width: 200px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-right: 15px;
+    }
+    a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      font-size: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+<header>YouTube Trending News</header>
+
+<div class="container">
+  <h2>Top Trending Videos</h2>
+  <div class="categories">
+    <button class="active" onclick="fetchTrending('')">All</button>
+    <button onclick="fetchTrending('10')">Music</button>
+    <button onclick="fetchTrending('20')">Gaming</button>
+    <button onclick="fetchTrending('23')">Comedy</button>
+    <button onclick="fetchTrending('25')">News</button>
+    <button onclick="fetchTrending('28')">Entertainment</button>
+    <button onclick="fetchTrending('17')">Sports</button>
+  </div>
+  <ul id="trendingList"></ul>
+</div>
+
+<script>
+  const youtubeApiKey = "AIzaSyDjOctlTd96UfvDgZ826LX8fzRb8S7ASMY"; // 
+  const maxResults = 20;
+  const categoryButtons = document.querySelectorAll('.categories button');
+
+  async function fetchTrending(categoryId="") {
+    // Active button styling
+    categoryButtons.forEach(btn => btn.classList.remove('active'));
+    const activeBtn = Array.from(categoryButtons).find(btn => btn.onclick.toString().includes(categoryId || ""));
+    if (activeBtn) activeBtn.classList.add('active');
+
+    try {
+      let url = `https://www.googleapis.com/youtube/v3/videos?part=snippet&chart=mostPopular&maxResults=${maxResults}&regionCode=IN&key=${youtubeApiKey}`;
+      if(categoryId) url += `&videoCategoryId=${categoryId}`;
+
+      const res = await fetch(url);
+      const data = await res.json();
+
+      if (!data.items) throw new Error("No trending videos found");
+
+      renderVideos(data.items);
+    } catch (err) {
+      console.error("Error fetching trending videos:", err);
+      document.getElementById("trendingList").innerHTML = "<li style='color:red;'>Failed to load trending videos.</li>";
+    }
+  }
+
+  function renderVideos(videos) {
+    const container = document.getElementById("trendingList");
+    container.innerHTML = "";
+    videos.forEach(video => {
+      const title = video.snippet.title;
+      const thumbnail = video.snippet.thumbnails.medium.url;
+      const videoUrl = `https://www.youtube.com/watch?v=${video.id}`;
+
+      const li = document.createElement("li");
+      li.innerHTML = `
+        <img src="${thumbnail}" alt="Thumbnail">
+        <a href="${videoUrl}" target="_blank">${title}</a>
+      `;
+      container.appendChild(li);
+    });
+  }
+
+  // Load default trending
+  fetchTrending();
+</script>
+
+</body>
+</html>
+

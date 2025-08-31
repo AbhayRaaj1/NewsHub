@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Search Results</title>
+<style>
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Body styling */
+body {
+    background: #f4f6f8;
+    color: #333;
+    padding: 20px;
+}
+
+/* Heading */
+h2 {
+    margin-bottom: 20px;
+    color: #1e3c72;
+    font-size: 1.8rem;
+    text-align: center;
+}
+
+/* Search results container */
+#searchResults {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 20px;
+}
+
+/* Individual news item */
+#searchResults li {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#searchResults li:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+}
+
+/* News image */
+#searchResults li img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+/* News title link */
+#searchResults li a {
+    display: block;
+    padding: 12px;
+    color: #1e3c72;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+#searchResults li a:hover {
+    color: #27496d;
+}
+
+/* No results / error message */
+#searchResults li {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 100px;
+    font-weight: 500;
+    color: #555;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    #searchResults {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+<body>
+<h2>Search Results</h2>
+<ul id="searchResults"><li>Loading...</li></ul>
+
+<script>
+// Get keyword from URL
+function getQueryParam(param) {
+    return new URLSearchParams(window.location.search).get(param);
+}
+const keyword = getQueryParam("query") || "";
+
+// Fetch backend news
+const backendApiUrl = "http://localhost:8080/api/news/fetch-latest";
+let allNews = [];
+
+async function fetchNewsForSearch() {
+    const container = document.getElementById("searchResults");
+    container.innerHTML = "<li>Loading news...</li>";
+    try {
+        const res = await fetch(backendApiUrl);
+        const newsList = await res.json();
+        allNews = newsList;
+
+        const filteredNews = allNews.filter(news =>
+            (news.title && news.title.toLowerCase().includes(keyword.toLowerCase())) ||
+            (news.description && news.description.toLowerCase().includes(keyword.toLowerCase()))
+        );
+
+        renderNews(filteredNews);
+    } catch(err) {
+        console.error(err);
+        container.innerHTML = "<li style='color:red;'>Failed to load news.</li>";
+    }
+}
+
+function renderNews(newsList){
+    const container = document.getElementById("searchResults");
+    container.innerHTML = "";
+    if(newsList.length === 0){
+        container.innerHTML = `<li>No news found for "<strong>${keyword}</strong>"</li>`;
+        return;
+    }
+    newsList.forEach(news => {
+        const li = document.createElement("li");
+        const title = news.title || "No title";
+        const img = news.imageUrl || "https://via.placeholder.com/350x180";
+        const link = news.url || "#";
+        li.innerHTML = `<img src="${img}" alt="news"><a href="${link}" target="_blank">${title}</a>`;
+        container.appendChild(li);
+    });
+}
+
+fetchNewsForSearch();
+</script>
+</body>
+</html>

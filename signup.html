@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up - NewsHub</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    /* Reset */
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+    body { background: linear-gradient(135deg, #1f1c2c, #928dab); display: flex; flex-direction: column; min-height: 100vh; color: #fff; }
+
+    header { 
+    display: flex;
+   justify-content: space-between;
+    align-items: center;
+     padding: 15px 50px; 
+     background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(15px);
+       border-bottom: 1px solid rgba(255,255,255,0.2); 
+      }
+    header .logo {
+     font-size: 22px; 
+     font-weight: bold; 
+     display: flex; 
+     align-items: center; 
+     gap: 8px; 
+    }
+    header nav ul { 
+    list-style: none; 
+    display: flex; gap: 25px; }
+    header nav ul li a { 
+    text-decoration: none;
+     color: #fff; font-weight: 500; 
+     transition: 0.3s; 
+    }
+    header nav ul li a:hover { 
+      color: #00e0ff; 
+    }
+    #dateTime {
+       font-size: 14px; opacity: 0.8; 
+      }
+
+    main { 
+    flex: 1; 
+    display: flex; 
+    justify-content: center;
+     align-items: center; 
+     padding: 30px; }
+
+    .signup-box { 
+    background: rgba(255,255,255,0.1);
+     border-radius: 16px; padding: 40px;
+      width: 100%; max-width: 420px;
+       backdrop-filter: blur(12px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.3); 
+        border: 1px solid rgba(255,255,255,0.2); text-align: center; }
+    .signup-box h2 {
+       margin-bottom: 20px; 
+       font-size: 26px;
+        color: #fff;
+       }
+    .signup-box form {
+       display: flex; 
+       flex-direction: column; 
+       gap: 15px; 
+      }
+    .signup-box label {
+     text-align: left;
+      font-size: 14px;
+       opacity: 0.9;
+       }
+    .signup-box input { 
+    padding: 12px;
+     border: none; 
+     border-radius: 10px;
+      outline: none; 
+      font-size: 15px;
+       background: rgba(255,255,255,0.2);
+        color: #fff; 
+        transition: 0.3s; }
+    .signup-box input::placeholder { 
+      color: rgba(255,255,255,0.7);
+     }
+    .signup-box input:focus { 
+      background: rgba(255,255,255,0.3); 
+      box-shadow: 0 0 10px #00e0ff; 
+    }
+
+    .show-pass { 
+      text-align: left; 
+      font-size: 13px; 
+      display: flex; 
+      align-items: center; 
+      gap: 5px;
+     }
+    .signup-box button {
+     background: linear-gradient(135deg, #00e0ff, #0077ff);
+      color: #fff;
+       padding: 12px;
+       border: none;
+        border-radius: 12px;
+         cursor: pointer;
+          font-size: 16px;
+         font-weight: bold; transition: 0.3s; 
+        }
+    .signup-box button:hover { 
+      background: linear-gradient(135deg, #0077ff, #00e0ff); transform: scale(1.05); 
+    }
+
+    .signup-box p { 
+      font-size: 14px;
+     }
+    .signup-box a { 
+    color: #00e0ff;
+     text-decoration: none;
+      font-weight: 500; 
+    }
+    .signup-box a:hover {
+     text-decoration: underline; 
+    }
+
+    #responseMsg { 
+    margin-top: 10px;
+     font-weight: bold;
+     }
+
+    footer { 
+      text-align: center;
+       padding: 15px;
+        background: rgba(255,255,255,0.1); 
+        backdrop-filter: blur(15px);
+         font-size: 14px; }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="logo"><i class="fa-solid fa-newspaper"></i> NewsHub</div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="#">Trending</a></li>
+        <li><a href="#">Notes</a></li>
+        <li><a href="#">Vocabulary</a></li>
+        <li><a href="#">Download</a></li>
+      </ul>
+    </nav>
+    <div id="dateTime"></div>
+  </header>
+
+  <!-- Main Sign Up Section -->
+  <main>
+    <section class="signup-box">
+      <h2>Create Your Account</h2>
+      <form id="signupForm">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" placeholder="Enter your name" required>
+
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="Enter your email" required>
+
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="Enter your password" required minlength="6">
+
+        <label for="confirmPassword">Confirm Password</label>
+        <input type="password" id="confirmPassword" placeholder="Confirm your password" required>
+
+        <div class="show-pass">
+          <input type="checkbox" onclick="togglePassword()"> Show Password
+        </div>
+
+        <button type="submit" id="signupBtn">Sign Up</button>
+        <p>Already have an account? <a href="login.html">Login</a></p>
+        <a href="index.html">← Back to Home</a>
+      </form>
+      <p id="responseMsg"></p>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 NewsHub - Made By Our Team</p>
+  </footer>
+
+  <!-- JS -->
+  <script>
+    function togglePassword() {
+      let pass = document.getElementById("password");
+      let confirm = document.getElementById("confirmPassword");
+      if (pass.type === "password") { pass.type = "text"; confirm.type = "text"; }
+      else { pass.type = "password"; confirm.type = "password"; }
+    }
+
+    function updateDateTime() {
+      const now = new Date();
+      document.getElementById("dateTime").innerText = now.toLocaleString();
+    }
+    setInterval(updateDateTime, 1000);
+    updateDateTime();
+
+    // Signup Form Submission
+    document.getElementById("signupForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+      const confirmPassword = document.getElementById("confirmPassword").value;
+      const responseMsg = document.getElementById("responseMsg");
+      const signupBtn = document.getElementById("signupBtn");
+
+      responseMsg.innerText = "";
+
+      if (password !== confirmPassword) {
+        responseMsg.style.color = "red";
+        responseMsg.innerText = "Passwords do not match!";
+        return;
+      }
+
+      signupBtn.disabled = true;
+      signupBtn.innerText = "Signing up...";
+
+      try {
+        const response = await fetch("http://localhost:8080/api/auth/signup", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, email, password })
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+          responseMsg.style.color = "lightgreen";
+          responseMsg.innerText = "Signup successful! Redirecting...";
+          setTimeout(() => window.location.href = "login.html", 2000);
+        } else {
+          responseMsg.style.color = "red";
+          responseMsg.innerText = data.error || "Signup failed!";
+        }
+      } catch (err) {
+        responseMsg.style.color = "red";
+        responseMsg.innerText = "Server error. Try again later.";
+      } finally {
+        signupBtn.disabled = false;
+        signupBtn.innerText = "Sign Up";
+      }
+    });
+  </script>
+</body>
+</html>

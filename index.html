@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NewsHub</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <header>
+     <div class="logo">
+        <img src="logo.png" alt="" class="logo-img">
+        NewsHub
+    </div>
+    <div class="search-box"></div>
+  <input type="text" id="searchInput" placeholder="Search news...">
+  <button onclick="goToSearchPage()"><i class="fa fa-search"></i></button> 
+  </div>
+
+<button id="themeToggle" class="theme-btn"> Dark Mode </button>
+</div>
+    <nav>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="trending.html">Trending</a></li>
+    <li><a href="notes.html">Notes</a></li>
+    <li><a href="vocab.html">Vocabulary</a></li>
+        <li><button onclick="window.location.href='signup.html'" class="signup-btn">Sign Up</button></li>
+        <li><button onclick="window.location.href='login.html'" class="login-btn">Login</button></li>
+      </ul>
+    </nav>
+    <div id="dateTime"></div>
+  </header>
+
+  <div class="container">
+    <!-- News Content (left side) -->
+    <div class="content">
+      <div class="tab-buttons">
+        <button class="active" onclick="showTab('english')" style="height: 30px;">English News</button>
+        <button class="active1"  onclick="window.location.href='hindi.html'" class="hindi-btn">Hindi News</button>
+      </div>
+      <div class="video-slider">
+    <video id="videoPlayer"  autoplay muted playsinline>
+        <source src="video.mp4" type="video/mp4">
+    </video>
+</div>
+
+      <!-- English News Tab -->
+      <div id="english" class="tab-content" style="display:block;">
+        <h2>Latest News</h2>
+        <ul></ul>
+      </div>
+      <!-- Hindi News Tab -->
+<div id="hindi" class="tab-content" style="display:none;">
+    <h2>Latest News</h2>
+    <ul></ul>
+</div>
+
+      <!-- Backend Users Tab -->
+      <div id="backend" class="tab-content" style="display:none;">
+        <h2>Users from Backend</h2>
+        <ul id="usersList"></ul>
+      </div>
+    </div>
+
+    <!-- Sidebar (right side permanent) -->
+    <aside class="sidebar">
+      <div class="widget">
+        <h3>Categories</h3>
+        <button onclick="fetchNews('general')">General</button>
+        <button onclick="fetchNews('sports')">Sports</button>
+        <button onclick="fetchNews('technology')">Technology</button>
+        <button onclick="fetchNews('entertainment')">Entertainment</button>
+        <button onclick="fetchNews('politics')">Politics</button>
+        <button onclick="fetchNews('business')">Business</button>
+        <button onclick="fetchNews('education')">Education</button>
+      </div>
+    </aside>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 NewsHub - Made By Our Team.</p>
+    <div class="social-icons">
+      <i class="fa-brands fa-twitter"></i>
+      <i class="fa-brands fa-linkedin"></i>
+      <i class="fa-brands fa-github"></i>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
+

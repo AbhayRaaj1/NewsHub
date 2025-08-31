@@ -1,0 +1,424 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Poppins, sans-serif;
+}
+body {
+  background: #fff;
+  color: #333;
+  transition: background 0.3s, color 0.3s;
+}
+
+body.dark-mode {
+  background: #121212;
+  color: #e0e0e0;
+}
+
+body.dark-mode header,
+body.dark-mode footer {
+  background: #1b1b1b;
+}
+
+body.dark-mode .sidebar {
+  background: #1b1b1b;
+}
+
+body.dark-mode .sidebar .widget h3,
+body.dark-mode .sidebar .widget button {
+  color: #e0e0e0;
+}
+
+.theme-btn {
+  border: none;
+  background: #fff;
+  color: #1e3c72;
+  padding: 6px 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+body.dark-mode .theme-btn {
+  background: #333;
+  color: #fff;
+}
+
+
+/* ===== Header ===== */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #1e3c72;
+  color: #fff;
+  padding: 12px 30px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.logo {
+  font-size: 1.6rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.search-box input {
+  padding: 6px 10px;
+  border-radius: 20px;
+  border: none;
+  outline: none;
+}
+
+.search-box button {
+  background: #752e2e;
+  border: none;
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+header nav ul {
+  display: flex;
+  list-style: none;
+  gap: 20px;
+}
+
+header nav ul li a,
+.signup-btn {
+  text-decoration: none;
+  color: #fff;
+  padding: 6px 14px;
+  border-radius: 20px;
+  transition: 0.3s;
+}
+
+header nav ul li a:hover {
+  background: #a83d41;
+}
+
+.signup-btn {
+  background: #a83d41;
+  border: none;
+  cursor: pointer;
+}
+
+.signup-btn:hover {
+  background: #872727;
+}
+.login-btn {
+  text-decoration: none;
+  color: #fff;
+  padding: 6px 14px;
+  border-radius: 20px;
+  transition: 0.3s;
+}
+
+header nav ul li a:hover {
+  background: #09b6b9;
+}
+
+.login-btn {
+  background: #3da89d;
+  border: none;
+  cursor: pointer;
+}
+
+.login-btn:hover {
+  background: #278739;
+}
+#dateTime {
+  font-size: 14px;
+  font-weight: bold;
+  margin-left: 20px;
+}
+
+/* ===== Layout (Sidebar + Content) ===== */
+.container {
+  display: flex;
+  min-height: calc(100vh - 120px); 
+}
+
+/* Sidebar */
+.sidebar {
+  width: 220px;
+  background: #f4f4f4;
+  padding: 15px;
+  position: sticky;
+  top: 65px; /* below header */
+  height: calc(100vh - 65px);
+  overflow-y: auto;
+}
+
+.widget h3 {
+  margin-bottom: 12px;
+  color: #1e3c72;
+  font-size: 1.2rem;
+}
+
+
+.widget button {
+  display: block; 
+  width: 100%;      
+  text-align: center;
+  background: #1e3c72; 
+  color: white;
+  padding: 8px 0;   
+  margin-bottom: 8px;
+  border: none;
+  border-radius: 12px; 
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+
+.widget button:hover {
+  background: #27496d;
+  transform: scale(1.05);
+}
+
+/* Main Content */
+.content {
+  flex: 1;
+  padding: 20px;
+}
+
+.tab-buttons {
+  margin-bottom: 15px;
+}
+
+.tab-buttons button {
+  padding: 8px 16px;
+  border: none;
+  background: #ddd;
+  border-radius: 20px;
+  margin-right: 18px;
+  cursor: pointer;
+}
+
+.tab-buttons button.active,
+.tab-buttons button:hover {
+  background: #174cae;
+  color: #fff;
+}
+.tab-buttons button.active1,
+.tab-buttons button:hover {
+  background: #174cae;
+  color: #fff;
+}
+.tab-content ul {
+  list-style: none;
+  margin-top: 15px;
+}
+
+.tab-content ul li {
+  background: #fff;
+  margin-bottom: 10px;
+  padding: 12px;
+  border-radius: 10px;
+  display: flex;
+  gap: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease;
+}
+
+.tab-content ul li:hover {
+  transform: scale(1.02);
+}
+
+.tab-content ul li img {
+  width: 180px;
+  height: 100px;
+  border-radius: 6px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.tab-content ul li a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+}
+
+/* ===== Footer ===== */
+footer {
+  background: #1e3c72;
+  color: #fff;
+  text-align: center;
+  padding: 15px;
+}
+
+footer .social-icons i {
+  margin: 0 8px;
+  cursor: pointer;
+}
+
+footer .social-icons i:hover {
+  color: #a83d41;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 992px) {
+  .container {
+    flex-direction: column;
+    @media (max-width: 992px) {
+    .container {
+        flex-direction: column; 
+    }
+.video-slider {
+        height: auto;         
+    }
+}
+
+  }
+
+/* ===== Layout (Sidebar + Content) ===== */
+.container {
+  display: flex;
+  flex-direction: row-reverse; 
+  min-height: calc(100vh - 120px);
+}
+
+/* Sidebar (right side) */
+.sidebar {
+  width: 220px;
+  background: #f4f4f4;
+  padding: 15px;
+  position: sticky;
+  top: 65px; /* below header */
+  height: calc(100vh - 65px);
+  overflow-y: auto;
+  border-left: 2px solid #ddd; 
+}
+
+
+  .tab-content ul li {
+    flex-direction: column;
+  }
+
+  .tab-content ul li img {
+    width: 100%;
+    height: auto;
+  }
+  container {
+    display: flex;
+    gap: 20px;          
+    align-items: flex-start;
+}
+
+.content {
+    flex: 2;           /
+}
+
+.sidebar {
+    flex: 1;           
+    max-width: 220px;   
+    position: sticky;
+    top: 65px;
+}
+  .video-container {
+  width: 100%;
+  max-width: 100%; 
+  margin-bottom: 10px;
+  overflow: hidden;
+  
+
+}
+
+.video-container video {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover; 
+  display: block;
+  width: 100%;
+
+  border: none;
+  outline: none;
+}
+}
+.video-slider {
+    width: 100%;      
+    height: 500px;      
+    margin-bottom: 20px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+#videoPlayer {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;  
+}
+/* ===== Tab Buttons (English / Hindi) ===== */
+.tab-buttons {
+    display: flex;              /* Flexbox layout */
+    justify-content: center;    /* Center horizontally */
+    gap: 20px;                  /* Space between buttons */
+    margin-bottom: 20px;        /* Space below buttons */
+}
+
+.tab-buttons button {
+    padding: 8px 18px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    background: #ddd;
+    transition: all 0.3s;
+}
+
+.tab-buttons button.active,
+.tab-buttons button.active1,
+.tab-buttons button:hover {
+    background: #174cae;  /* Dark blue */
+    color: #fff;
+}
+/* ===== Sidebar / Category Buttons Styling ===== */
+.sidebar .widget {
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.sidebar .widget h3 {
+    font-size: 1.3rem;
+    color: #1e3c72;
+    margin-bottom: 16px;
+    text-align: center; /* Heading center */
+    font-weight: bold;
+}
+
+.sidebar .widget button {
+    display: block;
+    width: 100%;
+    padding: 10px 0;
+    margin-bottom: 10px;
+    border: 2px solid #1e3c72;
+    border-radius: 10px;
+    background: white;
+    color: #1e3c72;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.sidebar .widget button:hover {
+    background: #1e3c72;
+    color: white;
+    transform: translateY(-2px); /* slight lift effect */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+} ise bhi dekho 

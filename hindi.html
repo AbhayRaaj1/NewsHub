@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NewsHub - हिंदी समाचार</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+*{ 
+    margin:0; 
+    padding:0;
+ box-sizing:border-box;
+  font-family:Poppins, sans-serif; 
+}
+    body { 
+    background:white;
+    color:#333; }
+    header { 
+    display:flex; 
+    justify-content:space-between;
+     align-items:center; background:#1e3c72; 
+     color:white; padding:12px 30px; 
+     position:sticky;
+     top:0; z-index:1000; }
+    .logo { 
+    font-size:1.6rem;
+ font-weight:bold;
+ display:flex; 
+ align-items:center; 
+ gap:8px; 
+}
+    #dateTime { 
+    font-size:14px;
+     font-weight:bold; 
+     margin-left:20px; 
+    }
+  main { 
+    display:grid; 
+    grid-template-columns:2fr 1fr; 
+    gap:20px; 
+    padding:20px;
+ }
+ .news-display {
+     background:#f9f9f9;
+     padding:20px; 
+     border-radius:20px;
+      box-shadow:0 4px 12px rgba(0,0,0,0.15);
+     }
+    .news-display h2 {
+     margin-bottom:15px; 
+     color:#1e3c72; 
+    }
+    .tab-content ul {
+     list-style:none; 
+     margin-top:15px;
+     }
+    .tab-content ul li {
+      background:white; margin-bottom:10px; padding:12px; border-radius:10px;
+      display:flex;
+       align-items:center; 
+      gap:12px;
+       box-shadow:0 2px 6px rgba(0,0,0,0.1);
+      transition:transform 0.2s ease;
+    }
+    .tab-content ul li:hover { 
+    transform:scale(1.02);
+ }
+    .tab-content ul li img { 
+    width:190px; 
+    height:101px;
+     border-radius:6px; 
+     object-fit:cover; 
+     flex-shrink:0; }
+    .tab-content ul li a { 
+    text-decoration:none; 
+    color:#333; 
+    font-weight:500; 
+}
+.sidebar { 
+    display:flex;
+flex-direction:column; gap:20px; }
+    .widget { 
+    background:white;
+     padding:15px;
+     border-radius:12px;
+      box-shadow:0 2px 6px rgba(0,0,0,0.1); 
+    }
+    .widget h3 { 
+    margin-bottom:12px; 
+    color:#1e3c72; 
+    font-size:1.2rem;
+ }
+    .widget button {
+      display:block; 
+      width:100%;
+     text-align:center;
+      background:#1e3c72; 
+      color:white;
+      padding:8px 0;
+    margin-bottom:8px;
+     border:none;
+      border-radius:12px; 
+     cursor:pointer;
+      transition: all 0.2s ease;
+    }
+    .widget button:hover { background:#27496d; transform:scale(1.05); }
+
+    footer {
+ background:#1e3c72; 
+ color:white;
+  text-align:center;
+   padding:15px;
+  margin-top:30px; }
+    footer .social-icons i {
+ margin:0 8px; cursor:pointer; }
+    footer .social-icons i:hover { color:#872727; }
+
+    @media(max-width:992px){
+      main{ grid-template-columns:1fr; }
+      .tab-content ul li { flex-direction:column; align-items:flex-start; }
+      .tab-content ul li img { width:100%; height:auto; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo"><i class="fa-solid fa-newspaper"></i> NewsHub - हिंदी</div>
+    <div id="dateTime"></div>
+  </header>
+
+  <main>
+    <section class="content news-display">
+      <div id="hindi" class="tab-content" style="display:block;">
+        <h2>ताज़ा हिंदी समाचार</h2>
+        <ul></ul>
+      </div>
+    </section>
+
+    <aside class="sidebar">
+      <div class="widget">
+        <h3>श्रेणियाँ</h3>
+<button onclick="fetchNews('hi', 'sports')">खेल</button>
+<button onclick="fetchNews('hi', 'technology')">प्रौद्योगिकी</button>
+<button onclick="fetchNews('hi', 'entertainment')">मनोरंजन</button>
+<button onclick="fetchNews('hi', 'politics')">राजनीति</button>
+<button onclick="fetchNews('hi', 'education')">शिक्षा</button>>
+      </div>
+    </aside>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 NewsHub - Made By Our Team.</p>
+  </footer>
+
+  <script>
+    function updateDateTime(){
+      const now=new Date();
+      const options={weekday:"long", year:"numeric", month:"long", day:"numeric"};
+      document.getElementById("dateTime").innerText=
+        now.toLocaleDateString("hi-IN",options)+" | "+now.toLocaleTimeString("hi-IN");
+    }
+    setInterval(updateDateTime,1000); updateDateTime();
+
+    const hindiApiKey="pub_1c6e5c1d3cb44de79948154d6b515f4f"; // Replace with your API key
+
+    async function fetchNews(language="hi", category=""){
+      try{
+        let url=`https://newsdata.io/api/1/latest?apikey=${hindiApiKey}&language=hi`;
+        if(category) url+=`&category=${category}`;
+
+        const res=await fetch(url);
+        const data=await res.json();
+
+        let articles = data.results || [];
+        renderNews(articles, "hindi");
+      }catch(err){ console.error("Error fetching:",err); }
+    }
+
+    function renderNews(newsList, language){
+      const container = document.getElementById(language).querySelector("ul");
+      container.innerHTML="";
+      newsList.slice(0,20).forEach(news=>{
+        const title = news.title || news.description || "No title";
+        const img = news.image_url || "https://via.placeholder.com/190x101";
+        const link = news.link || "#";
+        const li = document.createElement("li");
+        li.innerHTML = `
+          <img src="${img}" alt="news">
+          <a href="${link}" target="_blank"><span>${title}</span></a>
+        `;
+        container.appendChild(li);
+      });
+    }
+
+    // Load default Hindi news
+    fetchNews();
+  </script>
+</body>
+</html>
+
